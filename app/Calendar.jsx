@@ -104,7 +104,7 @@ export default class Calendar extends React.Component {
     return `bg-liturgical-${colorLower}`;
   }
 
-  renderDay(day, weekDay) {
+  renderDay(day, weekDay, row) {
     const color =
       findColor(
         // Don't let festivals trump Sundays
@@ -120,13 +120,23 @@ export default class Calendar extends React.Component {
     const borderClass = this.getBorderColorClass(color);
     const bgClass = this.getBackgroundColorClass(color);
     
+    // Alternate background colors based on position
+    const isEvenPosition = (row + weekDay) % 2 === 0;
+    const alternatingBg = isEvenPosition ? '#ffffff' : '#f5f5f5';
+    
     const className = `
-      ${bgClass} ${borderClass} hover-illuminate gothic-shadow
+      ${bgClass} ${borderClass}
       ${isToday ? "today" : ""}
     `.trim();
 
     if (!day || !day.date) {
-      return <td className="border border-gray-200 bg-gray-50" key={weekDay} />;
+      return (
+        <td 
+          className="border border-gray-200" 
+          style={{ backgroundColor: alternatingBg }}
+          key={weekDay} 
+        />
+      );
     }
 
     // Get all propers - check if they exist and have content
@@ -154,6 +164,7 @@ export default class Calendar extends React.Component {
     return (
       <td
         className={className}
+        style={{ backgroundColor: alternatingBg }}
         onClick={this.goToDay(day.date.day)}
         key={weekDay}
       >
@@ -235,12 +246,12 @@ export default class Calendar extends React.Component {
     }
 
     return (
-      <div className="calendar-container manuscript-border mx-auto max-w-7xl my-8">
+      <div className="calendar-container mx-auto max-w-7xl my-8">
         {/* Navigation */}
         <nav className="calendar-nav p-4 flex items-center justify-between">
           <Link 
             to={`/${Object.values(this.getLastMonth()).join("/")}/`}
-            className="flex items-center gap-2 hover:scale-105 transition-transform"
+            className="flex items-center gap-2"
           >
             <i className="fas fa-chevron-left"></i>
             <span className="font-garamond">
@@ -255,7 +266,7 @@ export default class Calendar extends React.Component {
           
           <Link 
             to={`/${Object.values(this.getNextMonth()).join("/")}/`}
-            className="flex items-center gap-2 hover:scale-105 transition-transform"
+            className="flex items-center gap-2"
           >
             <span className="font-garamond">
               {this.getYearAndMonthLabel(this.getNextMonth())}
@@ -269,10 +280,7 @@ export default class Calendar extends React.Component {
           <table className="calendar-table w-full">
             <thead>
               <tr>
-                <th className="font-cinzel">
-                  <i className="fas fa-sun mr-1"></i>
-                  Sunday
-                </th>
+                <th className="font-cinzel">Sunday</th>
                 <th className="font-cinzel">Monday</th>
                 <th className="font-cinzel">Tuesday</th>
                 <th className="font-cinzel">Wednesday</th>
@@ -284,47 +292,11 @@ export default class Calendar extends React.Component {
             <tbody>
               {grid.map((week, row) => (
                 <tr key={row}>
-                  {week.map((day, weekDay) => this.renderDay(day, weekDay))}
+                  {week.map((day, weekDay) => this.renderDay(day, weekDay, row))}
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
-
-        {/* Legend */}
-        <div className="p-4 border-t border-gray-300 bg-gray-50">
-          <div className="text-center mb-3">
-            <h3 className="font-cinzel font-semibold text-gray-700">
-              <i className="fas fa-palette mr-2"></i>
-              Liturgical Colors
-            </h3>
-          </div>
-          <div className="flex flex-wrap justify-center gap-4 text-sm font-garamond">
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 border-2 border-liturgical-violet bg-liturgical-violet rounded"></div>
-              <span>Advent/Lent</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 border-2 border-liturgical-white bg-liturgical-white rounded"></div>
-              <span>Christmas/Easter</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 border-2 border-liturgical-green bg-liturgical-green rounded"></div>
-              <span>Ordinary Time</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 border-2 border-liturgical-red bg-liturgical-red rounded"></div>
-              <span>Martyrs/Pentecost</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 border-2 border-liturgical-rose bg-liturgical-rose rounded"></div>
-              <span>Gaudete/Laetare</span>
-            </div>
-          </div>
-          <div className="text-center mt-3 text-xs text-gray-600 font-garamond">
-            <i className="fas fa-info-circle mr-1"></i>
-            OT = Old Testament • Ep = Epistle • Go = Gospel
-          </div>
         </div>
       </div>
     );

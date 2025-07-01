@@ -143,12 +143,12 @@ export default class Day extends React.Component {
     document.title = `${title} · Lutheran Lectionary`;
 
     return (
-      <div className="day-view manuscript-border mx-auto max-w-4xl my-8">
+      <div className="day-view mx-auto max-w-4xl my-8">
         {/* Navigation */}
         <nav className="day-nav p-4 flex items-center justify-between">
           <Link 
             to={`/${yesterday.toFormat("y/LL/dd")}/`}
-            className="flex items-center gap-2 hover:scale-105 transition-transform"
+            className="flex items-center gap-2"
           >
             <i className="fas fa-chevron-left"></i>
             <span className="font-garamond">
@@ -157,7 +157,7 @@ export default class Day extends React.Component {
           </Link>
           
           <Link 
-            className="text-center font-cinzel font-semibold hover:scale-105 transition-transform" 
+            className="text-center font-cinzel font-semibold" 
             to={`/${date.toFormat("y/LL")}/`}
           >
             <i className="fas fa-calendar-alt mr-2"></i>
@@ -166,7 +166,7 @@ export default class Day extends React.Component {
           
           <Link 
             to={`/${tomorrow.toFormat("y/LL/dd")}/`}
-            className="flex items-center gap-2 hover:scale-105 transition-transform"
+            className="flex items-center gap-2"
           >
             <span className="font-garamond">
               {tomorrow.toFormat("LLLL d, y")}
@@ -233,7 +233,7 @@ export default class Day extends React.Component {
           {[day.propers.lectionary, day.propers.festivals, day.propers.daily]
             .filter((p) => p.length > 0)
             .map((propers, i) => (
-              <div key={`propers-${i}`} className="proper-section ornamental-corner">
+              <div key={`propers-${i}`} className="proper-section">
                 <h2 className={`font-cinzel ${this.getLiturgicalColorClass(findColor(propers)?.toLowerCase())}`}>
                   <i className="fas fa-cross mr-3"></i>
                   {findProperByType(propers, 0)?.text}
