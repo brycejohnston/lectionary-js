@@ -79,6 +79,27 @@ export default class Day extends React.Component {
     return `liturgical-${colorLower}`;
   }
 
+  // Get the liturgical color for a specific date (same logic as calendar view)
+  getLiturgicalColorForDate(date) {
+    const weekCalculator = new Week(date);
+    const week = weekCalculator.getWeek();
+    const sunday = weekCalculator.getSunday();
+
+    const dayData = {
+      date,
+      week,
+      propers: loader.load(date, week),
+      sunday: loader.load(sunday, week),
+    };
+
+    return findColor(
+      // Don't let festivals trump Sundays
+      date.weekday === 7 ? null : dayData.propers.festivals,
+      dayData.propers.lectionary,
+      dayData.sunday.lectionary
+    )?.toLowerCase() ?? "none";
+  }
+
   getReadingIcon(type) {
     switch (type) {
       case 19: return "fas fa-scroll"; // Old Testament
@@ -140,15 +161,21 @@ export default class Day extends React.Component {
 
     const colorClass = this.getLiturgicalColorClass(color);
 
+    // Get liturgical colors for navigation dates
+    const yesterdayColor = this.getLiturgicalColorForDate(yesterday);
+    const tomorrowColor = this.getLiturgicalColorForDate(tomorrow);
+    const yesterdayColorClass = this.getLiturgicalColorClass(yesterdayColor);
+    const tomorrowColorClass = this.getLiturgicalColorClass(tomorrowColor);
+
     document.title = `${title} · Lutheran Lectionary`;
 
     return (
       <div className="day-view mx-auto max-w-4xl my-8">
-        {/* Navigation */}
+        {/* Navigation with liturgical colors */}
         <nav className="day-nav p-4 flex items-center justify-between">
           <Link 
             to={`/${yesterday.toFormat("y/LL/dd")}/`}
-            className="flex items-center gap-2"
+            className={`flex items-center gap-2 ${yesterdayColorClass} hover:opacity-80 transition-opacity`}
           >
             <i className="fas fa-chevron-left"></i>
             <span className="font-garamond">
@@ -157,7 +184,7 @@ export default class Day extends React.Component {
           </Link>
           
           <Link 
-            className="text-center font-cinzel font-semibold" 
+            className="text-center font-cinzel font-semibold text-white hover:opacity-80 transition-opacity" 
             to={`/${date.toFormat("y/LL")}/`}
           >
             <i className="fas fa-calendar-alt mr-2"></i>
@@ -166,7 +193,7 @@ export default class Day extends React.Component {
           
           <Link 
             to={`/${tomorrow.toFormat("y/LL/dd")}/`}
-            className="flex items-center gap-2"
+            className={`flex items-center gap-2 ${tomorrowColorClass} hover:opacity-80 transition-opacity`}
           >
             <span className="font-garamond">
               {tomorrow.toFormat("LLLL d, y")}
@@ -176,7 +203,7 @@ export default class Day extends React.Component {
         </nav>
 
         <div className="p-6">
-          {/* Date and Title */}
+          {/* Date and Title with liturgical color */}
           <div className="text-center mb-8">
             <h2 className={`font-cinzel text-3xl md:text-4xl font-bold mb-2 ${colorClass}`}>
               <i className="fas fa-calendar-day mr-3"></i>
