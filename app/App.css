@@ -1,20 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
+
 :root {
-  /* Solid color palette */
-  --primary-bg-color: #ffffff;
-  --header-footer-bg: #2c3e50;
-  --header-footer-text: #ffffff;
-  --column-heading-bg: #34495e;
-  --column-heading-text: #ffffff;
-  --cell-border-color: #e0e0e0;
-  --today-border-color: #2196f3;
-  
-  /* Liturgical colors */
+  --liturgical-gold: #d4af37;
+  --liturgical-deep-gold: #b8941f;
+  --liturgical-ivory: #faf7f0;
+  --liturgical-brown: #8b4513;
+  --liturgical-deep-brown: #654321;
   --liturgical-violet: #663399;
   --liturgical-white: #2c2c2c;
   --liturgical-green: #228b22;
   --liturgical-red: #dc143c;
   --liturgical-rose: #ff69b4;
   --liturgical-black: #2c2c2c;
+  --manuscript-border: #c9a96e;
+  --shadow-soft: rgba(0, 0, 0, 0.1);
+  --shadow-medium: rgba(0, 0, 0, 0.15);
 }
 
 * {
@@ -22,13 +23,26 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background: var(--primary-bg-color);
-  color: #333333;
+  font-family: 'EB Garamond', 'Crimson Text', Georgia, serif;
+  background: linear-gradient(135deg, var(--liturgical-ivory) 0%, #f5f2e8 100%);
+  color: var(--liturgical-deep-brown);
   margin: 0;
   padding: 0;
   line-height: 1.6;
   min-height: 100vh;
+}
+
+/* Typography Classes */
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+}
+
+.font-garamond {
+  font-family: 'EB Garamond', serif;
+}
+
+.font-crimson {
+  font-family: 'Crimson Text', serif;
 }
 
 /* Liturgical Color Classes */
@@ -107,67 +121,136 @@ body {
   background-color: rgba(44, 44, 44, 0.08);
 }
 
+/* Manuscript-inspired decorative elements */
+.manuscript-border {
+  border: 2px solid var(--manuscript-border);
+  border-radius: 8px;
+  position: relative;
+}
+
+.manuscript-border::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 1px solid var(--liturgical-gold);
+  border-radius: 10px;
+  z-index: -1;
+}
+
+.ornamental-corner {
+  position: relative;
+}
+
+.ornamental-corner::before,
+.ornamental-corner::after {
+  content: '✠';
+  position: absolute;
+  font-size: 12px;
+  color: var(--liturgical-gold);
+  opacity: 0.6;
+}
+
+.ornamental-corner::before {
+  top: 4px;
+  left: 4px;
+}
+
+.ornamental-corner::after {
+  bottom: 4px;
+  right: 4px;
+}
+
+/* Gothic-inspired shadows */
+.gothic-shadow {
+  box-shadow: 
+    0 2px 4px var(--shadow-soft),
+    0 4px 8px var(--shadow-soft),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.gothic-shadow-deep {
+  box-shadow: 
+    0 4px 8px var(--shadow-medium),
+    0 8px 16px var(--shadow-soft),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Hover effects */
+.hover-illuminate {
+  transition: all 0.3s ease;
+}
+
+.hover-illuminate:hover {
+  transform: translateY(-1px);
+  box-shadow: 
+    0 6px 12px var(--shadow-medium),
+    0 12px 24px var(--shadow-soft),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
 /* Title bar styling */
 .title-bar {
-  background: var(--header-footer-bg);
-  color: var(--header-footer-text);
-  border-bottom: none;
-  box-shadow: none;
+  background: linear-gradient(135deg, var(--liturgical-deep-brown) 0%, var(--liturgical-brown) 100%);
+  border-bottom: 3px solid var(--liturgical-gold);
+  box-shadow: 0 2px 8px var(--shadow-medium);
 }
 
 .title-bar h1 {
-  color: var(--header-footer-text);
-  text-shadow: none;
+  color: var(--liturgical-gold);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   font-weight: 600;
   letter-spacing: 1px;
 }
 
 /* Calendar specific styles */
 .calendar-container {
-  background: var(--primary-bg-color);
-  border-radius: 8px;
-  border: 1px solid var(--cell-border-color);
-  box-shadow: none;
+  background: var(--liturgical-ivory);
+  border-radius: 12px;
+  box-shadow: 
+    0 8px 24px var(--shadow-medium),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .calendar-nav {
-  background: var(--header-footer-bg);
-  color: var(--header-footer-text);
+  background: linear-gradient(135deg, var(--liturgical-gold) 0%, var(--liturgical-deep-gold) 100%);
   border-radius: 8px 8px 0 0;
-  border-bottom: none;
+  border-bottom: 2px solid var(--manuscript-border);
 }
 
 .calendar-nav a {
-  color: var(--header-footer-text);
+  color: var(--liturgical-deep-brown);
   text-decoration: none;
   font-weight: 500;
-  transition: opacity 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .calendar-nav a:hover {
-  opacity: 0.8;
+  color: var(--liturgical-brown);
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
 }
 
 .calendar-nav h2 {
-  color: var(--header-footer-text);
-  text-shadow: none;
+  color: var(--liturgical-deep-brown);
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
   font-weight: 600;
 }
 
 /* Calendar table styling */
 .calendar-table {
   border-collapse: separate;
-  border-spacing: 0;
-  background: var(--primary-bg-color);
-  width: 100%;
+  border-spacing: 2px;
+  background: var(--liturgical-ivory);
 }
 
 .calendar-table th {
-  background: var(--column-heading-bg);
-  color: var(--column-heading-text);
+  background: linear-gradient(135deg, var(--liturgical-brown) 0%, var(--liturgical-deep-brown) 100%);
+  color: var(--liturgical-gold);
   font-weight: 600;
-  text-shadow: none;
-  border: 1px solid var(--cell-border-color);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  border: none;
   padding: 12px 8px;
   text-align: center;
   font-size: 14px;
@@ -175,28 +258,33 @@ body {
 }
 
 .calendar-table td {
-  border: 1px solid var(--cell-border-color);
-  transition: none;
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid var(--manuscript-border);
+  transition: all 0.3s ease;
   cursor: pointer;
   position: relative;
   vertical-align: top;
   min-height: 140px;
-  padding: 8px;
+  padding: 4px;
   width: 14.28%;
 }
 
 .calendar-table td:hover {
-  background: #f8f9fa;
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--shadow-medium);
 }
 
 .calendar-table td.today {
-  border: 2px solid var(--today-border-color);
-  box-shadow: none;
+  border: 3px solid var(--liturgical-gold);
+  box-shadow: 
+    0 0 0 1px var(--liturgical-deep-gold),
+    0 4px 12px var(--shadow-medium);
 }
 
 /* Day number styling */
 .day-number {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
   margin-bottom: 6px;
   text-align: center;
@@ -205,7 +293,7 @@ body {
 
 /* Propers styling */
 .proper-title {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   margin-bottom: 4px;
   line-height: 1.2;
@@ -221,9 +309,9 @@ body {
 }
 
 .commemoration {
-  font-size: 11px;
+  font-size: 12px;
   font-style: italic;
-  color: #666;
+  color: var(--liturgical-brown);
   margin-top: 4px;
   line-height: 1.2;
   text-align: center;
@@ -231,51 +319,50 @@ body {
 
 /* Day view styling */
 .day-view {
-  background: var(--primary-bg-color);
-  border-radius: 8px;
-  border: 1px solid var(--cell-border-color);
-  box-shadow: none;
+  background: var(--liturgical-ivory);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px var(--shadow-medium);
 }
 
 .day-nav {
-  background: var(--header-footer-bg);
-  color: var(--header-footer-text);
+  background: linear-gradient(135deg, var(--liturgical-gold) 0%, var(--liturgical-deep-gold) 100%);
   border-radius: 8px 8px 0 0;
-  border-bottom: none;
+  border-bottom: 2px solid var(--manuscript-border);
 }
 
 .day-nav a {
-  color: var(--header-footer-text);
+  color: var(--liturgical-deep-brown);
   text-decoration: none;
   font-weight: 500;
-  transition: opacity 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .day-nav a:hover {
-  opacity: 0.8;
+  color: var(--liturgical-brown);
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
 }
 
 .proper-section {
-  background: var(--primary-bg-color);
-  border: 1px solid var(--cell-border-color);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--manuscript-border);
   border-radius: 8px;
   margin-bottom: 24px;
   overflow: hidden;
 }
 
 .proper-section h2 {
-  background: var(--column-heading-bg);
-  color: var(--column-heading-text);
+  background: linear-gradient(135deg, var(--liturgical-brown) 0%, var(--liturgical-deep-brown) 100%);
+  color: var(--liturgical-gold);
   margin: 0;
   padding: 16px 24px;
   font-size: 20px;
   font-weight: 600;
-  text-shadow: none;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .proper-section h3 {
-  color: #333;
-  font-size: 16px;
+  color: var(--liturgical-deep-brown);
+  font-size: 18px;
   font-weight: 600;
   margin: 16px 0 8px 0;
   display: flex;
@@ -283,16 +370,21 @@ body {
   gap: 8px;
 }
 
+.proper-section h3 i {
+  color: var(--liturgical-gold);
+  font-size: 16px;
+}
+
 .reading-link {
-  color: #0066cc;
+  color: var(--liturgical-brown);
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.3s ease;
-  font-size: 14px;
+  transition: all 0.3s ease;
+  font-size: 16px;
 }
 
 .reading-link:hover {
-  color: #004499;
+  color: var(--liturgical-deep-brown);
   text-decoration: underline;
 }
 
@@ -313,22 +405,22 @@ body {
 
 /* Footer styling */
 footer {
-  background: var(--header-footer-bg);
-  color: var(--header-footer-text);
+  background: linear-gradient(135deg, var(--liturgical-deep-brown) 0%, var(--liturgical-brown) 100%);
+  color: var(--liturgical-gold);
   text-align: center;
   padding: 20px;
   margin-top: 40px;
-  border-top: none;
+  border-top: 3px solid var(--liturgical-gold);
 }
 
 footer a {
-  color: var(--header-footer-text);
+  color: var(--liturgical-gold);
   text-decoration: none;
-  transition: opacity 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 footer a:hover {
-  opacity: 0.8;
+  color: var(--liturgical-ivory);
   text-decoration: underline;
 }
 
@@ -336,7 +428,7 @@ footer a:hover {
 @media (max-width: 768px) {
   .calendar-table th,
   .calendar-table td {
-    padding: 6px 4px;
+    padding: 4px 2px;
     font-size: 11px;
     min-height: 120px;
   }
@@ -346,15 +438,15 @@ footer a:hover {
   }
   
   .proper-title {
-    font-size: 10px;
+    font-size: 11px;
   }
   
   .proper-reading {
-    font-size: 9px;
+    font-size: 10px;
   }
   
   .commemoration {
-    font-size: 9px;
+    font-size: 10px;
   }
   
   .calendar-nav h2 {
@@ -368,12 +460,12 @@ footer a:hover {
 
 @media (max-width: 480px) {
   .calendar-table {
-    border-spacing: 0;
+    border-spacing: 1px;
   }
   
   .calendar-table th,
   .calendar-table td {
-    padding: 4px 2px;
+    padding: 2px 1px;
     min-height: 100px;
   }
   
@@ -382,14 +474,14 @@ footer a:hover {
   }
   
   .proper-title {
-    font-size: 9px;
+    font-size: 10px;
   }
   
   .proper-reading {
-    font-size: 8px;
+    font-size: 9px;
   }
   
   .commemoration {
-    font-size: 8px;
+    font-size: 9px;
   }
 }
