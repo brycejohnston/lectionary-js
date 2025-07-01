@@ -129,10 +129,15 @@ export default class Calendar extends React.Component {
       return <td className="border border-gray-200 bg-gray-50" key={weekDay} />;
     }
 
-    const lectionary = day.propers.lectionary.filter((p) => hasReadings([p]));
-    const festivals = day.propers.festivals.filter((p) => hasReadings([p]));
+    // Get all propers with proper filtering
+    const lectionary = day.propers.lectionary.filter((p) => p.length > 0 && hasReadings(day.propers.lectionary));
+    const festivals = day.propers.festivals.filter((p) => p.length > 0 && hasReadings(day.propers.festivals));
     const commemoration = findProperByType(day.propers.commemorations, 37);
     const dailyReadings = day.propers.daily.slice(0, 2);
+
+    // Determine which propers to show (festivals take precedence)
+    const primaryPropers = festivals.length > 0 ? festivals : lectionary;
+    const showReadings = primaryPropers.length > 0;
 
     return (
       <td
@@ -140,49 +145,60 @@ export default class Calendar extends React.Component {
         onClick={this.goToDay(day.date.day)}
         key={weekDay}
       >
-        <div className="h-full flex flex-col">
+        <div className="h-full flex flex-col p-1">
           {/* Day number with liturgical color */}
-          <div className={`day-number font-cinzel ${colorClass}`}>
+          <div className={`day-number font-cinzel ${colorClass} text-center mb-1`}>
             {day.date.day}
             {isToday && (
               <i className="fas fa-star ml-1 text-yellow-500 text-xs"></i>
             )}
           </div>
 
-          {/* Festival/Lectionary Propers */}
-          {[...festivals, ...lectionary].map((propers, i) => (
-            <div key={i} className="mb-2">
-              <div className={`proper-title font-garamond ${colorClass}`}>
+          {/* Festival/Lectionary Title */}
+          {showReadings && (
+            <div className="mb-2">
+              <div className={`proper-title font-garamond ${colorClass} text-center leading-tight`}>
                 <i className="fas fa-cross mr-1 text-xs opacity-60"></i>
-                {findProperByType([propers], 0)?.text}
+                {findProperByType(primaryPropers, 0)?.text}
               </div>
-              <div className="proper-reading text-gray-600">
-                OT: {findProperByType([propers], 19)?.text}
+              
+              {/* Scripture References */}
+              <div className="mt-1 space-y-0.5">
+                <div className="proper-reading text-gray-700 font-medium">
+                  <span className="font-semibold text-xs">OT:</span> {findProperByType(primaryPropers, 19)?.text}
+                </div>
+                <div className="proper-reading text-gray-700 font-medium">
+                  <span className="font-semibold text-xs">Ep:</span> {findProperByType(primaryPropers, 1)?.text}
+                </div>
+                <div className="proper-reading text-gray-700 font-medium">
+                  <span className="font-semibold text-xs">Go:</span> {findProperByType(primaryPropers, 2)?.text}
+                </div>
               </div>
-              <div className="proper-reading text-gray-600">
-                Ep: {findProperByType([propers], 1)?.text}
-              </div>
-              <div className="proper-reading text-gray-600">
-                Go: {findProperByType([propers], 2)?.text}
-              </div>
-            </div>
-          ))}
-
-          {/* Commemoration */}
-          {commemoration && (
-            <div className="commemoration font-crimson">
-              <i className="fas fa-praying-hands mr-1 text-xs"></i>
-              {commemoration.text}
             </div>
           )}
 
-          {/* Daily Readings */}
-          {dailyReadings.map((reading, i) => (
-            <div key={i} className="proper-reading text-gray-500 mt-1">
-              <i className="fas fa-book-open mr-1 text-xs"></i>
-              {reading.text}
+          {/* Commemoration */}
+          {commemoration && (
+            <div className="commemoration font-crimson text-center mb-2">
+              <i className="fas fa-praying-hands mr-1 text-xs text-amber-600"></i>
+              <span className="text-xs leading-tight">{commemoration.text}</span>
             </div>
-          ))}
+          )}
+
+          {/* Daily Readings (only show if no other propers) */}
+          {!showReadings && dailyReadings.length > 0 && (
+            <div className="mt-auto space-y-0.5">
+              <div className="text-xs text-gray-600 font-semibold text-center mb-1">
+                <i className="fas fa-book-open mr-1"></i>
+                Daily Readings
+              </div>
+              {dailyReadings.map((reading, i) => (
+                <div key={i} className="proper-reading text-gray-600 text-center">
+                  {reading.text}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </td>
     );
@@ -257,6 +273,12 @@ export default class Calendar extends React.Component {
 
         {/* Legend */}
         <div className="p-4 border-t border-gray-300 bg-gray-50">
+          <div className="text-center mb-3">
+            <h3 className="font-cinzel font-semibold text-gray-700">
+              <i className="fas fa-palette mr-2"></i>
+              Liturgical Colors
+            </h3>
+          </div>
           <div className="flex flex-wrap justify-center gap-4 text-sm font-garamond">
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 border-2 border-liturgical-violet bg-liturgical-violet rounded"></div>
@@ -278,6 +300,10 @@ export default class Calendar extends React.Component {
               <div className="w-4 h-4 border-2 border-liturgical-rose bg-liturgical-rose rounded"></div>
               <span>Gaudete/Laetare</span>
             </div>
+          </div>
+          <div className="text-center mt-3 text-xs text-gray-600 font-garamond">
+            <i className="fas fa-info-circle mr-1"></i>
+            OT = Old Testament • Ep = Epistle • Go = Gospel
           </div>
         </div>
       </div>
