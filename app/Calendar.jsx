@@ -129,15 +129,27 @@ export default class Calendar extends React.Component {
       return <td className="border border-gray-200 bg-gray-50" key={weekDay} />;
     }
 
-    // Get all propers with proper filtering
-    const lectionary = day.propers.lectionary.filter((p) => p.length > 0 && hasReadings(day.propers.lectionary));
-    const festivals = day.propers.festivals.filter((p) => p.length > 0 && hasReadings(day.propers.festivals));
+    // Get all propers - check if they exist and have content
+    const lectionary = day.propers.lectionary || [];
+    const festivals = day.propers.festivals || [];
     const commemoration = findProperByType(day.propers.commemorations, 37);
-    const dailyReadings = day.propers.daily.slice(0, 2);
+    const dailyReadings = (day.propers.daily || []).slice(0, 2);
 
+    // Check if festivals have readings (festivals should always display if they exist)
+    const hasFestival = festivals.length > 0 && findProperByType(festivals, 0);
+    const hasLectionaryReadings = lectionary.length > 0 && hasReadings(lectionary);
+    
     // Determine which propers to show (festivals take precedence)
-    const primaryPropers = festivals.length > 0 ? festivals : lectionary;
-    const showReadings = primaryPropers.length > 0;
+    let primaryPropers = [];
+    let showReadings = false;
+    
+    if (hasFestival) {
+      primaryPropers = festivals;
+      showReadings = true;
+    } else if (hasLectionaryReadings) {
+      primaryPropers = lectionary;
+      showReadings = true;
+    }
 
     return (
       <td
@@ -162,18 +174,26 @@ export default class Calendar extends React.Component {
                 {findProperByType(primaryPropers, 0)?.text}
               </div>
               
-              {/* Scripture References */}
-              <div className="mt-1 space-y-0.5">
-                <div className="proper-reading text-gray-700 font-medium">
-                  <span className="font-semibold text-xs">OT:</span> {findProperByType(primaryPropers, 19)?.text}
+              {/* Scripture References - only show if they exist */}
+              {hasReadings(primaryPropers) && (
+                <div className="mt-1 space-y-0.5">
+                  {findProperByType(primaryPropers, 19) && (
+                    <div className="proper-reading text-gray-700 font-medium">
+                      <span className="font-semibold text-xs">OT:</span> {findProperByType(primaryPropers, 19)?.text}
+                    </div>
+                  )}
+                  {findProperByType(primaryPropers, 1) && (
+                    <div className="proper-reading text-gray-700 font-medium">
+                      <span className="font-semibold text-xs">Ep:</span> {findProperByType(primaryPropers, 1)?.text}
+                    </div>
+                  )}
+                  {findProperByType(primaryPropers, 2) && (
+                    <div className="proper-reading text-gray-700 font-medium">
+                      <span className="font-semibold text-xs">Go:</span> {findProperByType(primaryPropers, 2)?.text}
+                    </div>
+                  )}
                 </div>
-                <div className="proper-reading text-gray-700 font-medium">
-                  <span className="font-semibold text-xs">Ep:</span> {findProperByType(primaryPropers, 1)?.text}
-                </div>
-                <div className="proper-reading text-gray-700 font-medium">
-                  <span className="font-semibold text-xs">Go:</span> {findProperByType(primaryPropers, 2)?.text}
-                </div>
-              </div>
+              )}
             </div>
           )}
 
