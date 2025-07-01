@@ -121,7 +121,7 @@ export default class Calendar extends React.Component {
     const bgClass = this.getBackgroundColorClass(color);
     
     const className = `
-      ${bgClass} ${borderClass} border-2 hover-illuminate gothic-shadow
+      ${bgClass} ${borderClass} hover-illuminate gothic-shadow
       ${isToday ? "today" : ""}
     `.trim();
 
@@ -129,8 +129,8 @@ export default class Calendar extends React.Component {
       return <td className="border border-gray-200 bg-gray-50" key={weekDay} />;
     }
 
-    const lectionary = day.propers.lectionary.filter((p) => p.length > 0 && hasReadings(p));
-    const festivals = day.propers.festivals.filter((p) => p.length > 0 && hasReadings(p));
+    const lectionary = day.propers.lectionary.filter((p) => hasReadings([p]));
+    const festivals = day.propers.festivals.filter((p) => hasReadings([p]));
     const commemoration = findProperByType(day.propers.commemorations, 37);
     const dailyReadings = day.propers.daily.slice(0, 2);
 
@@ -154,16 +154,16 @@ export default class Calendar extends React.Component {
             <div key={i} className="mb-2">
               <div className={`proper-title font-garamond ${colorClass}`}>
                 <i className="fas fa-cross mr-1 text-xs opacity-60"></i>
-                {findProperByType(propers, 0)?.text}
+                {findProperByType([propers], 0)?.text}
               </div>
               <div className="proper-reading text-gray-600">
-                OT: {findProperByType(propers, 19)?.text}
+                OT: {findProperByType([propers], 19)?.text}
               </div>
               <div className="proper-reading text-gray-600">
-                Ep: {findProperByType(propers, 1)?.text}
+                Ep: {findProperByType([propers], 1)?.text}
               </div>
               <div className="proper-reading text-gray-600">
-                Go: {findProperByType(propers, 2)?.text}
+                Go: {findProperByType([propers], 2)?.text}
               </div>
             </div>
           ))}

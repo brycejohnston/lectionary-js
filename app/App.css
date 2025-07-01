@@ -8,7 +8,7 @@
   --liturgical-brown: #8b4513;
   --liturgical-deep-brown: #654321;
   --liturgical-violet: #663399;
-  --liturgical-white: #ffffff;
+  --liturgical-white: #2c2c2c;
   --liturgical-green: #228b22;
   --liturgical-red: #dc143c;
   --liturgical-rose: #ff69b4;
@@ -51,8 +51,8 @@ body {
 }
 
 .liturgical-white {
-  color: var(--liturgical-deep-brown);
-  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+  color: var(--liturgical-white);
+  font-weight: 600;
 }
 
 .liturgical-green {
@@ -77,7 +77,7 @@ body {
 }
 
 .border-liturgical-white {
-  border-color: var(--liturgical-deep-brown);
+  border-color: var(--liturgical-white);
 }
 
 .border-liturgical-green {
@@ -98,27 +98,27 @@ body {
 
 /* Background Color Classes */
 .bg-liturgical-violet {
-  background-color: rgba(102, 51, 153, 0.05);
+  background-color: rgba(102, 51, 153, 0.08);
 }
 
 .bg-liturgical-white {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .bg-liturgical-green {
-  background-color: rgba(34, 139, 34, 0.05);
+  background-color: rgba(34, 139, 34, 0.08);
 }
 
 .bg-liturgical-red {
-  background-color: rgba(220, 20, 60, 0.05);
+  background-color: rgba(220, 20, 60, 0.08);
 }
 
 .bg-liturgical-rose {
-  background-color: rgba(255, 105, 180, 0.05);
+  background-color: rgba(255, 105, 180, 0.08);
 }
 
 .bg-liturgical-black {
-  background-color: rgba(44, 44, 44, 0.05);
+  background-color: rgba(44, 44, 44, 0.08);
 }
 
 /* Manuscript-inspired decorative elements */
@@ -259,7 +259,7 @@ body {
 
 .calendar-table td {
   background: rgba(255, 255, 255, 0.8);
-  border: 1px solid var(--manuscript-border);
+  border: 2px solid var(--manuscript-border);
   transition: all 0.3s ease;
   cursor: pointer;
   position: relative;
@@ -285,7 +285,6 @@ body {
 .day-number {
   font-size: 18px;
   font-weight: 600;
-  color: var(--liturgical-deep-brown);
   margin-bottom: 4px;
   text-align: center;
 }
@@ -476,41 +475,5 @@ footer a:hover {
   
   .commemoration {
     font-size: 9px;
-  }
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --liturgical-ivory: #2a2520;
-    --liturgical-brown: #d4af37;
-    --liturgical-deep-brown: #f4e4bc;
-    --manuscript-border: #8b7355;
-    --shadow-soft: rgba(0, 0, 0, 0.3);
-    --shadow-medium: rgba(0, 0, 0, 0.4);
-  }
-  
-  body {
-    background: linear-gradient(135deg, #1a1611 0%, #2a2520 100%);
-    color: var(--liturgical-deep-brown);
-  }
-  
-  .calendar-container,
-  .day-view {
-    background: rgba(42, 37, 32, 0.9);
-  }
-  
-  .calendar-table td {
-    background: rgba(42, 37, 32, 0.8);
-    border-color: var(--manuscript-border);
-  }
-  
-  .calendar-table td:hover {
-    background: rgba(42, 37, 32, 0.95);
-  }
-  
-  .proper-section {
-    background: rgba(42, 37, 32, 0.6);
-    border-color: var(--manuscript-border);
   }
 }
