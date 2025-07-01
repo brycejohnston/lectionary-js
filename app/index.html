@@ -3,22 +3,71 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Lutheran Lectionary</title>
-		<meta name="description" content="">
+		<meta name="description" content="Traditional Lutheran Lectionary Calendar - LCMS One Year Lectionary with liturgical readings, festivals, and commemorations">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script>
+			tailwind.config = {
+				theme: {
+					extend: {
+						fontFamily: {
+							'cinzel': ['Cinzel', 'serif'],
+							'garamond': ['EB Garamond', 'serif'],
+							'crimson': ['Crimson Text', 'serif'],
+						},
+						colors: {
+							'liturgical': {
+								'gold': '#d4af37',
+								'deep-gold': '#b8941f',
+								'ivory': '#faf7f0',
+								'brown': '#8b4513',
+								'deep-brown': '#654321',
+								'violet': '#663399',
+								'white': '#ffffff',
+								'green': '#228b22',
+								'red': '#dc143c',
+								'rose': '#ff69b4',
+								'black': '#2c2c2c',
+							}
+						}
+					}
+				}
+			}
+		</script>
 	</head>
 	<body>
 		<div id="top"></div>
 
-		<header class="title-bar">
-			<h1>Lutheran Lectionary</h1>
+		<header class="title-bar fixed top-0 w-full z-50">
+			<h1 class="font-cinzel text-center py-3 px-4">
+				<i class="fas fa-cross mr-2"></i>
+				Lutheran Lectionary
+				<i class="fas fa-cross ml-2"></i>
+			</h1>
 		</header>
 
-		<div id="root"></div>
+		<main class="pt-16">
+			<div id="root"></div>
+		</main>
 
-		<footer>
-			Copyright &copy; <a target="_blank" href="https://stanlemon.com">Stan Lemon</a>.
-			<a href="https://github.com/stanlemon/lectionary-js">Check out the source code.</a>
+		<footer class="mt-16">
+			<div class="font-garamond">
+				<p class="mb-2">
+					<i class="fas fa-copyright mr-1"></i>
+					Copyright &copy; <a target="_blank" href="https://stanlemon.com">Stan Lemon</a>
+				</p>
+				<p>
+					<i class="fas fa-code-branch mr-1"></i>
+					<a href="https://github.com/stanlemon/lectionary-js">View source code on GitHub</a>
+				</p>
+				<p class="mt-2 text-sm opacity-75">
+					<i class="fas fa-church mr-1"></i>
+					Ad Majorem Dei Gloriam
+				</p>
+			</div>
 		</footer>
 	</body>
 </html>
