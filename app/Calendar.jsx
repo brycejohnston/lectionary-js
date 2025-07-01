@@ -104,7 +104,7 @@ export default class Calendar extends React.Component {
     return `bg-liturgical-${colorLower}`;
   }
 
-  renderDay(day, weekDay) {
+  renderDay(day, weekDay, row) {
     const color =
       findColor(
         // Don't let festivals trump Sundays
@@ -120,13 +120,23 @@ export default class Calendar extends React.Component {
     const borderClass = this.getBorderColorClass(color);
     const bgClass = this.getBackgroundColorClass(color);
     
+    // Alternate background colors for date cells
+    const isEvenCell = (row + weekDay) % 2 === 0;
+    const cellBgColor = isEvenCell ? '#FFFFFF' : '#F5F5F5';
+    
     const className = `
-      ${bgClass} ${borderClass} hover-illuminate gothic-shadow
+      ${bgClass} ${borderClass}
       ${isToday ? "today" : ""}
     `.trim();
 
     if (!day || !day.date) {
-      return <td className="border border-gray-200 bg-gray-50" key={weekDay} />;
+      return (
+        <td 
+          className="border border-gray-200" 
+          key={weekDay}
+          style={{ backgroundColor: cellBgColor }}
+        />
+      );
     }
 
     // Get all propers - check if they exist and have content
@@ -156,21 +166,21 @@ export default class Calendar extends React.Component {
         className={className}
         onClick={this.goToDay(day.date.day)}
         key={weekDay}
+        style={{ backgroundColor: cellBgColor }}
       >
         <div className="h-full flex flex-col p-1">
           {/* Day number with liturgical color */}
-          <div className={`day-number font-cinzel ${colorClass} text-center mb-1`}>
+          <div className={`day-number ${colorClass} text-center mb-1`}>
             {day.date.day}
             {isToday && (
-              <i className="fas fa-star ml-1 text-yellow-500 text-xs"></i>
+              <span className="ml-1 text-blue-500 text-xs">●</span>
             )}
           </div>
 
           {/* Festival/Lectionary Title */}
           {showReadings && (
             <div className="mb-2">
-              <div className={`proper-title font-garamond ${colorClass} text-center leading-tight`}>
-                <i className="fas fa-cross mr-1 text-xs opacity-60"></i>
+              <div className={`proper-title ${colorClass} text-center leading-tight`}>
                 {findProperByType(primaryPropers, 0)?.text}
               </div>
               
@@ -199,8 +209,7 @@ export default class Calendar extends React.Component {
 
           {/* Commemoration */}
           {commemoration && (
-            <div className="commemoration font-crimson text-center mb-2">
-              <i className="fas fa-praying-hands mr-1 text-xs text-amber-600"></i>
+            <div className="commemoration text-center mb-2">
               <span className="text-xs leading-tight">{commemoration.text}</span>
             </div>
           )}
@@ -209,7 +218,6 @@ export default class Calendar extends React.Component {
           {!showReadings && dailyReadings.length > 0 && (
             <div className="mt-auto space-y-0.5">
               <div className="text-xs text-gray-600 font-semibold text-center mb-1">
-                <i className="fas fa-book-open mr-1"></i>
                 Daily Readings
               </div>
               {dailyReadings.map((reading, i) => (
@@ -230,37 +238,30 @@ export default class Calendar extends React.Component {
 
     if (!grid) {
       return <div className="flex justify-center items-center h-64">
-        <i className="fas fa-spinner fa-spin text-2xl text-gray-500"></i>
+        <span className="text-gray-500">Loading...</span>
       </div>;
     }
 
     return (
-      <div className="calendar-container manuscript-border mx-auto max-w-7xl my-8">
+      <div className="calendar-container mx-auto max-w-7xl my-8">
         {/* Navigation */}
         <nav className="calendar-nav p-4 flex items-center justify-between">
           <Link 
             to={`/${Object.values(this.getLastMonth()).join("/")}/`}
-            className="flex items-center gap-2 hover:scale-105 transition-transform"
+            className="flex items-center gap-2"
           >
-            <i className="fas fa-chevron-left"></i>
-            <span className="font-garamond">
-              {this.getYearAndMonthLabel(this.getLastMonth())}
-            </span>
+            <span>‹ {this.getYearAndMonthLabel(this.getLastMonth())}</span>
           </Link>
           
-          <h2 className="font-cinzel text-xl md:text-2xl font-semibold text-center flex-1">
-            <i className="fas fa-calendar-alt mr-2"></i>
+          <h2 className="text-xl md:text-2xl font-semibold text-center flex-1">
             {this.getYearAndMonthLabel({ year, month })}
           </h2>
           
           <Link 
             to={`/${Object.values(this.getNextMonth()).join("/")}/`}
-            className="flex items-center gap-2 hover:scale-105 transition-transform"
+            className="flex items-center gap-2"
           >
-            <span className="font-garamond">
-              {this.getYearAndMonthLabel(this.getNextMonth())}
-            </span>
-            <i className="fas fa-chevron-right"></i>
+            <span>{this.getYearAndMonthLabel(this.getNextMonth())} ›</span>
           </Link>
         </nav>
 
@@ -269,62 +270,23 @@ export default class Calendar extends React.Component {
           <table className="calendar-table w-full">
             <thead>
               <tr>
-                <th className="font-cinzel">
-                  <i className="fas fa-sun mr-1"></i>
-                  Sunday
-                </th>
-                <th className="font-cinzel">Monday</th>
-                <th className="font-cinzel">Tuesday</th>
-                <th className="font-cinzel">Wednesday</th>
-                <th className="font-cinzel">Thursday</th>
-                <th className="font-cinzel">Friday</th>
-                <th className="font-cinzel">Saturday</th>
+                <th>Sunday</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
               </tr>
             </thead>
             <tbody>
               {grid.map((week, row) => (
                 <tr key={row}>
-                  {week.map((day, weekDay) => this.renderDay(day, weekDay))}
+                  {week.map((day, weekDay) => this.renderDay(day, weekDay, row))}
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
-
-        {/* Legend */}
-        <div className="p-4 border-t border-gray-300 bg-gray-50">
-          <div className="text-center mb-3">
-            <h3 className="font-cinzel font-semibold text-gray-700">
-              <i className="fas fa-palette mr-2"></i>
-              Liturgical Colors
-            </h3>
-          </div>
-          <div className="flex flex-wrap justify-center gap-4 text-sm font-garamond">
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 border-2 border-liturgical-violet bg-liturgical-violet rounded"></div>
-              <span>Advent/Lent</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 border-2 border-liturgical-white bg-liturgical-white rounded"></div>
-              <span>Christmas/Easter</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 border-2 border-liturgical-green bg-liturgical-green rounded"></div>
-              <span>Ordinary Time</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 border-2 border-liturgical-red bg-liturgical-red rounded"></div>
-              <span>Martyrs/Pentecost</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 border-2 border-liturgical-rose bg-liturgical-rose rounded"></div>
-              <span>Gaudete/Laetare</span>
-            </div>
-          </div>
-          <div className="text-center mt-3 text-xs text-gray-600 font-garamond">
-            <i className="fas fa-info-circle mr-1"></i>
-            OT = Old Testament • Ep = Epistle • Go = Gospel
-          </div>
         </div>
       </div>
     );

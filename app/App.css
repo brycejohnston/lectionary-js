@@ -1,21 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap');
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
-
 :root {
-  --liturgical-gold: #d4af37;
-  --liturgical-deep-gold: #b8941f;
-  --liturgical-ivory: #faf7f0;
-  --liturgical-brown: #8b4513;
-  --liturgical-deep-brown: #654321;
+  /* Solid color palette */
+  --primary-bg-color: #ffffff;
+  --header-footer-bg: #2c3e50;
+  --header-footer-text: #ffffff;
+  --column-heading-bg: #34495e;
+  --column-heading-text: #ffffff;
+  --cell-border-color: #e0e0e0;
+  --today-border-color: #2196f3;
+  
+  /* Liturgical colors */
   --liturgical-violet: #663399;
   --liturgical-white: #2c2c2c;
   --liturgical-green: #228b22;
   --liturgical-red: #dc143c;
   --liturgical-rose: #ff69b4;
   --liturgical-black: #2c2c2c;
-  --manuscript-border: #c9a96e;
-  --shadow-soft: rgba(0, 0, 0, 0.1);
-  --shadow-medium: rgba(0, 0, 0, 0.15);
 }
 
 * {
@@ -23,26 +22,13 @@
 }
 
 body {
-  font-family: 'EB Garamond', 'Crimson Text', Georgia, serif;
-  background: linear-gradient(135deg, var(--liturgical-ivory) 0%, #f5f2e8 100%);
-  color: var(--liturgical-deep-brown);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--primary-bg-color);
+  color: #333333;
   margin: 0;
   padding: 0;
   line-height: 1.6;
   min-height: 100vh;
-}
-
-/* Typography Classes */
-.font-cinzel {
-  font-family: 'Cinzel', serif;
-}
-
-.font-garamond {
-  font-family: 'EB Garamond', serif;
-}
-
-.font-crimson {
-  font-family: 'Crimson Text', serif;
 }
 
 /* Liturgical Color Classes */
@@ -121,136 +107,67 @@ body {
   background-color: rgba(44, 44, 44, 0.08);
 }
 
-/* Manuscript-inspired decorative elements */
-.manuscript-border {
-  border: 2px solid var(--manuscript-border);
-  border-radius: 8px;
-  position: relative;
-}
-
-.manuscript-border::before {
-  content: '';
-  position: absolute;
-  top: -4px;
-  left: -4px;
-  right: -4px;
-  bottom: -4px;
-  border: 1px solid var(--liturgical-gold);
-  border-radius: 10px;
-  z-index: -1;
-}
-
-.ornamental-corner {
-  position: relative;
-}
-
-.ornamental-corner::before,
-.ornamental-corner::after {
-  content: '✠';
-  position: absolute;
-  font-size: 12px;
-  color: var(--liturgical-gold);
-  opacity: 0.6;
-}
-
-.ornamental-corner::before {
-  top: 4px;
-  left: 4px;
-}
-
-.ornamental-corner::after {
-  bottom: 4px;
-  right: 4px;
-}
-
-/* Gothic-inspired shadows */
-.gothic-shadow {
-  box-shadow: 
-    0 2px 4px var(--shadow-soft),
-    0 4px 8px var(--shadow-soft),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-.gothic-shadow-deep {
-  box-shadow: 
-    0 4px 8px var(--shadow-medium),
-    0 8px 16px var(--shadow-soft),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-/* Hover effects */
-.hover-illuminate {
-  transition: all 0.3s ease;
-}
-
-.hover-illuminate:hover {
-  transform: translateY(-1px);
-  box-shadow: 
-    0 6px 12px var(--shadow-medium),
-    0 12px 24px var(--shadow-soft),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
-}
-
 /* Title bar styling */
 .title-bar {
-  background: linear-gradient(135deg, var(--liturgical-deep-brown) 0%, var(--liturgical-brown) 100%);
-  border-bottom: 3px solid var(--liturgical-gold);
-  box-shadow: 0 2px 8px var(--shadow-medium);
+  background: var(--header-footer-bg);
+  color: var(--header-footer-text);
+  border-bottom: none;
+  box-shadow: none;
 }
 
 .title-bar h1 {
-  color: var(--liturgical-gold);
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  color: var(--header-footer-text);
+  text-shadow: none;
   font-weight: 600;
   letter-spacing: 1px;
 }
 
 /* Calendar specific styles */
 .calendar-container {
-  background: var(--liturgical-ivory);
-  border-radius: 12px;
-  box-shadow: 
-    0 8px 24px var(--shadow-medium),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  background: var(--primary-bg-color);
+  border-radius: 8px;
+  border: 1px solid var(--cell-border-color);
+  box-shadow: none;
 }
 
 .calendar-nav {
-  background: linear-gradient(135deg, var(--liturgical-gold) 0%, var(--liturgical-deep-gold) 100%);
+  background: var(--header-footer-bg);
+  color: var(--header-footer-text);
   border-radius: 8px 8px 0 0;
-  border-bottom: 2px solid var(--manuscript-border);
+  border-bottom: none;
 }
 
 .calendar-nav a {
-  color: var(--liturgical-deep-brown);
+  color: var(--header-footer-text);
   text-decoration: none;
   font-weight: 500;
-  transition: all 0.3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .calendar-nav a:hover {
-  color: var(--liturgical-brown);
-  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+  opacity: 0.8;
 }
 
 .calendar-nav h2 {
-  color: var(--liturgical-deep-brown);
-  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+  color: var(--header-footer-text);
+  text-shadow: none;
   font-weight: 600;
 }
 
 /* Calendar table styling */
 .calendar-table {
   border-collapse: separate;
-  border-spacing: 2px;
-  background: var(--liturgical-ivory);
+  border-spacing: 0;
+  background: var(--primary-bg-color);
+  width: 100%;
 }
 
 .calendar-table th {
-  background: linear-gradient(135deg, var(--liturgical-brown) 0%, var(--liturgical-deep-brown) 100%);
-  color: var(--liturgical-gold);
+  background: var(--column-heading-bg);
+  color: var(--column-heading-text);
   font-weight: 600;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-  border: none;
+  text-shadow: none;
+  border: 1px solid var(--cell-border-color);
   padding: 12px 8px;
   text-align: center;
   font-size: 14px;
@@ -258,33 +175,28 @@ body {
 }
 
 .calendar-table td {
-  background: rgba(255, 255, 255, 0.8);
-  border: 2px solid var(--manuscript-border);
-  transition: all 0.3s ease;
+  border: 1px solid var(--cell-border-color);
+  transition: none;
   cursor: pointer;
   position: relative;
   vertical-align: top;
   min-height: 140px;
-  padding: 4px;
+  padding: 8px;
   width: 14.28%;
 }
 
 .calendar-table td:hover {
-  background: rgba(255, 255, 255, 0.95);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px var(--shadow-medium);
+  background: #f8f9fa;
 }
 
 .calendar-table td.today {
-  border: 3px solid var(--liturgical-gold);
-  box-shadow: 
-    0 0 0 1px var(--liturgical-deep-gold),
-    0 4px 12px var(--shadow-medium);
+  border: 2px solid var(--today-border-color);
+  box-shadow: none;
 }
 
 /* Day number styling */
 .day-number {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   margin-bottom: 6px;
   text-align: center;
@@ -293,7 +205,7 @@ body {
 
 /* Propers styling */
 .proper-title {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   margin-bottom: 4px;
   line-height: 1.2;
@@ -309,9 +221,9 @@ body {
 }
 
 .commemoration {
-  font-size: 12px;
+  font-size: 11px;
   font-style: italic;
-  color: var(--liturgical-brown);
+  color: #666;
   margin-top: 4px;
   line-height: 1.2;
   text-align: center;
@@ -319,50 +231,51 @@ body {
 
 /* Day view styling */
 .day-view {
-  background: var(--liturgical-ivory);
-  border-radius: 12px;
-  box-shadow: 0 8px 24px var(--shadow-medium);
+  background: var(--primary-bg-color);
+  border-radius: 8px;
+  border: 1px solid var(--cell-border-color);
+  box-shadow: none;
 }
 
 .day-nav {
-  background: linear-gradient(135deg, var(--liturgical-gold) 0%, var(--liturgical-deep-gold) 100%);
+  background: var(--header-footer-bg);
+  color: var(--header-footer-text);
   border-radius: 8px 8px 0 0;
-  border-bottom: 2px solid var(--manuscript-border);
+  border-bottom: none;
 }
 
 .day-nav a {
-  color: var(--liturgical-deep-brown);
+  color: var(--header-footer-text);
   text-decoration: none;
   font-weight: 500;
-  transition: all 0.3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .day-nav a:hover {
-  color: var(--liturgical-brown);
-  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+  opacity: 0.8;
 }
 
 .proper-section {
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid var(--manuscript-border);
+  background: var(--primary-bg-color);
+  border: 1px solid var(--cell-border-color);
   border-radius: 8px;
   margin-bottom: 24px;
   overflow: hidden;
 }
 
 .proper-section h2 {
-  background: linear-gradient(135deg, var(--liturgical-brown) 0%, var(--liturgical-deep-brown) 100%);
-  color: var(--liturgical-gold);
+  background: var(--column-heading-bg);
+  color: var(--column-heading-text);
   margin: 0;
   padding: 16px 24px;
   font-size: 20px;
   font-weight: 600;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  text-shadow: none;
 }
 
 .proper-section h3 {
-  color: var(--liturgical-deep-brown);
-  font-size: 18px;
+  color: #333;
+  font-size: 16px;
   font-weight: 600;
   margin: 16px 0 8px 0;
   display: flex;
@@ -370,21 +283,16 @@ body {
   gap: 8px;
 }
 
-.proper-section h3 i {
-  color: var(--liturgical-gold);
-  font-size: 16px;
-}
-
 .reading-link {
-  color: var(--liturgical-brown);
+  color: #0066cc;
   text-decoration: none;
   font-weight: 500;
-  transition: all 0.3s ease;
-  font-size: 16px;
+  transition: color 0.3s ease;
+  font-size: 14px;
 }
 
 .reading-link:hover {
-  color: var(--liturgical-deep-brown);
+  color: #004499;
   text-decoration: underline;
 }
 
@@ -405,22 +313,22 @@ body {
 
 /* Footer styling */
 footer {
-  background: linear-gradient(135deg, var(--liturgical-deep-brown) 0%, var(--liturgical-brown) 100%);
-  color: var(--liturgical-gold);
+  background: var(--header-footer-bg);
+  color: var(--header-footer-text);
   text-align: center;
   padding: 20px;
   margin-top: 40px;
-  border-top: 3px solid var(--liturgical-gold);
+  border-top: none;
 }
 
 footer a {
-  color: var(--liturgical-gold);
+  color: var(--header-footer-text);
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: opacity 0.3s ease;
 }
 
 footer a:hover {
-  color: var(--liturgical-ivory);
+  opacity: 0.8;
   text-decoration: underline;
 }
 
@@ -428,7 +336,7 @@ footer a:hover {
 @media (max-width: 768px) {
   .calendar-table th,
   .calendar-table td {
-    padding: 4px 2px;
+    padding: 6px 4px;
     font-size: 11px;
     min-height: 120px;
   }
@@ -438,15 +346,15 @@ footer a:hover {
   }
   
   .proper-title {
-    font-size: 11px;
+    font-size: 10px;
   }
   
   .proper-reading {
-    font-size: 10px;
+    font-size: 9px;
   }
   
   .commemoration {
-    font-size: 10px;
+    font-size: 9px;
   }
   
   .calendar-nav h2 {
@@ -460,12 +368,12 @@ footer a:hover {
 
 @media (max-width: 480px) {
   .calendar-table {
-    border-spacing: 1px;
+    border-spacing: 0;
   }
   
   .calendar-table th,
   .calendar-table td {
-    padding: 2px 1px;
+    padding: 4px 2px;
     min-height: 100px;
   }
   
@@ -474,14 +382,14 @@ footer a:hover {
   }
   
   .proper-title {
-    font-size: 10px;
+    font-size: 9px;
   }
   
   .proper-reading {
-    font-size: 9px;
+    font-size: 8px;
   }
   
   .commemoration {
-    font-size: 9px;
+    font-size: 8px;
   }
 }
